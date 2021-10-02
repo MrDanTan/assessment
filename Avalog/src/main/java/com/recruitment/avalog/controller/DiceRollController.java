@@ -115,12 +115,12 @@ public class DiceRollController {
 
     @ExceptionHandler({ConstraintViolationException.class})
     public String constraintViolationException(HttpServletRequest request, HttpServletResponse response) {
-        LOG.error("Validation error for endpoint: {} with request string: {}", request.getPathInfo(), request.getQueryString());
+        LOG.error("Validation error for {} ", request.getRequestURI());
         response.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
 
         JSONObject exceptionResponse = new JSONObject();
         exceptionResponse.put("query_string_contraits",
-                              String.format("{0} min value is 1, {1} min value is 1, {2} min value is 4",
+                              String.format("%s min value is 1, %s min value is 1, %s min value is 4",
                                             NUMBER_OF_ROLLS_QUERY_KEY,
                                             NUMBER_OF_DICES_QUERY_KEY,
                                             NUMBER_OF_SIDES_QUERY_KEY
