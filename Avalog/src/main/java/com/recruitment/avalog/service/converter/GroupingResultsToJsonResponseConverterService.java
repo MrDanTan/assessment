@@ -9,6 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Class responsible for rewriting data stored in dto's to json results
+ *
+ * @author  MrDanTan
+ */
 @Service
 public class GroupingResultsToJsonResponseConverterService {
 
@@ -25,7 +30,13 @@ public class GroupingResultsToJsonResponseConverterService {
     private static final String RELATIVE_DISTRIBUTION_KEY = "relative_distribution";
     private static final String RELATIVE_DISTRIBUTION_LIST_KEY = "relative_distribution_list";
 
-
+    /**
+     * Method rewrites results of simulations and total rolls made, grouped by all existing dice number–dice side
+     * combinations to json string
+     *
+     * @param simulationThrowsGroupsList
+     * @return
+     */
     public String groupedDataForDiceNumberAndDiceSidesCombinationJsonResponse(List<SimulationThrowsGroupsDTO> simulationThrowsGroupsList) {
         JSONObject jsonFormatResults = new JSONObject();
         if (simulationThrowsGroupsList == null || simulationThrowsGroupsList.isEmpty()) {
@@ -44,6 +55,14 @@ public class GroupingResultsToJsonResponseConverterService {
         return jsonFormatResults.toString();
     }
 
+    /**
+     * Method rewrites relative distribution results to json string
+     *
+     * @param relativeDistribution
+     * @param numberOfDice
+     * @param numberOfSides
+     * @return
+     */
     public String relativeDistributionJsonResponse(RelativeDistributionDTO relativeDistribution,
                                                    Integer numberOfDice,
                                                    Integer numberOfSides) {

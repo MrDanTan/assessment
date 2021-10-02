@@ -6,6 +6,11 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DTO class that stores dice relative distribution results
+ *
+ * @author  MrDanTan
+ */
 @Setter
 @Getter
 public class RelativeDistributionDTO {

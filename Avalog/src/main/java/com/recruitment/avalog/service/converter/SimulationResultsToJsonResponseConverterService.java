@@ -8,6 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class rewrites dice distribution simulation results to json string
+ *
+ * @author MrDanTan
+ */
 @Service
 public class SimulationResultsToJsonResponseConverterService {
 
@@ -19,6 +24,12 @@ public class SimulationResultsToJsonResponseConverterService {
     private static final String NUMBER_OF_OCCURRENCES_KEY = "occurrences";
     private static final String LIST_OF_SUM_OCCURRENCES_KEY = "sum_occurrences";
 
+    /**
+     * Method responsible for rewriting dice distribution simulation results to json string
+     *
+     * @param diceRollsSimulationResults
+     * @return
+     */
     public String convertToJson(DiceRollsSimulationResultsDTO diceRollsSimulationResults) {
         JSONObject jsonFormatResults = new JSONObject();
 

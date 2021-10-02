@@ -26,6 +26,11 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Min;
 import java.util.List;
 
+/**
+ * Main controller of the application that binds url to java methods
+ *
+ * @author  MrDanTan
+ */
 @RestController
 @Validated
 @Slf4j
@@ -46,6 +51,14 @@ public class DiceRollController {
     private DiceRollSimulationDao diceRollSimulationDao;
     private GroupingResultsToJsonResponseConverterService groupingResultsToJsonResponseConverterService;
 
+    /**
+     * Class constructor with full DI
+     *
+     * @param rollSimulatorService
+     * @param simulationResultsToJsonResponseConverterService
+     * @param diceRollSimulationDao
+     * @param groupingResultsToJsonResponseConverterService
+     */
     @Autowired
     public DiceRollController (RollSimulatorService rollSimulatorService,
                                SimulationResultsToJsonResponseConverterService simulationResultsToJsonResponseConverterService,
@@ -57,6 +70,14 @@ public class DiceRollController {
         this.groupingResultsToJsonResponseConverterService = groupingResultsToJsonResponseConverterService;
     }
 
+    /**
+     * Endpoint that executes a dice distribution simulation
+     *
+     * @param numberOfRolls
+     * @param numberOfDices
+     * @param numberOfSides
+     * @return String
+     */
     @GetMapping(value = "/get/dice-rolls", produces = MediaType.APPLICATION_JSON_VALUE)
     public String customDiceRoll(
             @RequestParam(name = NUMBER_OF_ROLLS_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_ROLLS) @Min(1) Integer numberOfRolls,
@@ -73,6 +94,12 @@ public class DiceRollController {
         return simulationResultsToJsonResponseConverterService.convertToJson(diceRollsSimulationResultsDTO);
     }
 
+    /**
+     * Endpoint returns the total number of simulations and total rolls made, grouped by all existing dice number–dice side
+     * combinations
+     *
+     * @return String
+     */
     @GetMapping(value = "/get/simulation-and-rolls", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getGroupedDataForDiceNumberAndDiceSidesCombination() {
         LOG.info("Request to endpoint /get/simulation-and-rolls");
@@ -81,6 +108,13 @@ public class DiceRollController {
         return groupingResultsToJsonResponseConverterService.groupedDataForDiceNumberAndDiceSidesCombinationJsonResponse(simulationThrowsGroupsList);
     }
 
+    /**
+     * Returns the relative distribution, compared to the total rolls, for all the simulations
+     *
+     * @param numberOfDices
+     * @param numberOfSides
+     * @return
+     */
     @GetMapping(value = "/get/relative-distribution", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getRelativeDistribution(
             @RequestParam(name = NUMBER_OF_DICES_QUERY_KEY) @Min(1) Integer numberOfDices,
@@ -95,6 +129,14 @@ public class DiceRollController {
                                                                                               numberOfSides);
     }
 
+    /**
+     * Endpoint that executes a dice distribution simulation and saves results to databse
+     *
+     * @param numberOfRolls
+     * @param numberOfDices
+     * @param numberOfSides
+     * @return
+     */
     @PostMapping(value = "/post/add-dice-rolls", produces = MediaType.APPLICATION_JSON_VALUE)
     public String makeCustomDiceRollAndAddToBase(
             @RequestParam(name = NUMBER_OF_ROLLS_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_ROLLS) @Min(1) Integer numberOfRolls,
@@ -113,6 +155,13 @@ public class DiceRollController {
         return simulationResultsToJsonResponseConverterService.convertToJson(diceRollsSimulationResultsDTO);
     }
 
+    /**
+     * Method that is responsible for handling exceptions for query parameters validation
+     *
+     * @param request
+     * @param response
+     * @return
+     */
     @ExceptionHandler({ConstraintViolationException.class})
     public String constraintViolationException(HttpServletRequest request, HttpServletResponse response) {
         LOG.error("Validation error for {} ", request.getRequestURI());

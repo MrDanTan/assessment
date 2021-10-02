@@ -16,16 +16,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class allows access to database related to DiceRollSimulationEntity
+ *
+ * @author MrDanTan
+ */
 @Service
 public class DiceRollSimulationDao {
 
     DiceRollSimulationRepository diceRollSimulationRepository;
 
+    /**
+     * Class constructor with full DI
+     *
+     * @param diceRollSimulationRepository
+     */
     @Autowired
     public DiceRollSimulationDao(DiceRollSimulationRepository diceRollSimulationRepository) {
         this.diceRollSimulationRepository = diceRollSimulationRepository;
     }
 
+    /**
+     * Method allows to store to database results of dice distribution simulation
+     *
+     * @param simulationResults
+     * @param numberOfDice
+     * @param numberOfSides
+     */
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void save(List<SingeRollSimulationResultDTO> simulationResults, Integer numberOfDice, Integer numberOfSides) {
         if (simulationResults == null || simulationResults.isEmpty()) {
@@ -51,6 +68,12 @@ public class DiceRollSimulationDao {
 
     }
 
+    /**
+     * Method prepares number of simulations and total rolls made, grouped by all existing dice number–dice side
+     * combinations
+     *
+     * @return
+     */
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<SimulationThrowsGroupsDTO> getGroupsForDiceNumberDiceSideNumberCombination() {
         List<Object[]> results = diceRollSimulationRepository.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
@@ -64,6 +87,13 @@ public class DiceRollSimulationDao {
                       ).collect(Collectors.toList());
     }
 
+    /**
+     * Method prepares relative distribution data
+     *
+     * @param numberOfDices
+     * @param numberOfSides
+     * @return
+     */
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public RelativeDistributionDTO getRelativeDistribution(int numberOfDices, int numberOfSides) {
         long allSiumulationCount = diceRollSimulationRepository.count();

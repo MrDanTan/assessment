@@ -6,6 +6,12 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 
+/**
+ * DTO class that stores total number of simulations and total rolls made, grouped by all existing dice number–dice side
+ * combinations
+ *
+ * @author  MrDanTan
+ */
 @Getter
 @Setter
 @Builder

@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Class responsible for a dice distribution simulation
+ *
+ * @author  MrDanTan
+ */
 @Service
 public class RollSimulatorService {
 
@@ -17,11 +22,24 @@ public class RollSimulatorService {
 
     private SingleRollSimulatorService singleRollSimulatorService;
 
+    /**
+     * Class constructor with full DI
+     *
+     * @param singleRollSimulatorService
+     */
     @Autowired
     public RollSimulatorService(SingleRollSimulatorService singleRollSimulatorService) {
         this.singleRollSimulatorService = singleRollSimulatorService;
     }
 
+    /**
+     * Method with logic responsible for a dice distribution simulation
+     *
+     * @param numberOfRolls
+     * @param numberOfDices
+     * @param numberOfSides
+     * @return
+     */
     public DiceRollsSimulationResultsDTO simulate(int numberOfRolls, int numberOfDices, int numberOfSides) {
         if (!argumentsPositive(numberOfRolls, numberOfDices, numberOfSides)) {
             return prepareEmptyResults();

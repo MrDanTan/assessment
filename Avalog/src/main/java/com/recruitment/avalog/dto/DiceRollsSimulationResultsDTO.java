@@ -7,6 +7,11 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * DTO class that stores dice distribution simulation results
+ *
+ * @author  MrDanTan
+ */
 @Getter
 @Setter
 @Builder

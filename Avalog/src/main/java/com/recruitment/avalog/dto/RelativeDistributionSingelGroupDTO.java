@@ -6,6 +6,11 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 
+/**
+ * DTO class that stores dice relative distribution single group result
+ *
+ * @author  MrDanTan
+ */
 @Setter
 @Getter
 @Builder

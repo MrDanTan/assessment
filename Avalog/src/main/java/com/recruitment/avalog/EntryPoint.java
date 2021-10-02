@@ -5,6 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * Class responsible for starting application
+ *
+ * @author  MrDanTan
+ */
 @SpringBootApplication
 @ComponentScan({"com.recruitment.avalog.controller",
                 "com.recruitment.avalog.service",
