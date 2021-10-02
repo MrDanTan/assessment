@@ -63,6 +63,10 @@ public class DiceRollController {
             @RequestParam(name = NUMBER_OF_DICES_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_DICES) @Min(1) Integer numberOfDices,
             @RequestParam(name = NUMBER_OF_SIDES_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_SIDES) @Min(4) Integer numberOfSides
     ) {
+        LOG.info("Request to endpoint /get/dice-rolls with numberOfRolls: {}, numberOfDices: {}, numberOfSides: {}",
+                 numberOfRolls,
+                 numberOfDices,
+                 numberOfSides);
         DiceRollsSimulationResultsDTO diceRollsSimulationResultsDTO = rollSimulatorService.simulate(numberOfRolls,
                                                                                                     numberOfDices,
                                                                                                     numberOfSides);
@@ -71,6 +75,8 @@ public class DiceRollController {
 
     @GetMapping(value = "/get/simulation-and-rolls", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getGroupedDataForDiceNumberAndDiceSidesCombination() {
+        LOG.info("Request to endpoint /get/simulation-and-rolls");
+
         List<SimulationThrowsGroupsDTO> simulationThrowsGroupsList = diceRollSimulationDao.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
         return groupingResultsToJsonResponseConverterService.groupedDataForDiceNumberAndDiceSidesCombinationJsonResponse(simulationThrowsGroupsList);
     }
@@ -79,6 +85,10 @@ public class DiceRollController {
     public String getRelativeDistribution(
             @RequestParam(name = NUMBER_OF_DICES_QUERY_KEY) @Min(1) Integer numberOfDices,
             @RequestParam(name = NUMBER_OF_SIDES_QUERY_KEY) @Min(4) Integer numberOfSides) {
+        LOG.info("Request to endpoint /get/relative-distribution with numberOfDices: {}, numberOfSides: {}",
+                 numberOfDices,
+                 numberOfSides);
+
         RelativeDistributionDTO relativeDistribution = diceRollSimulationDao.getRelativeDistribution(numberOfDices, numberOfSides);
         return groupingResultsToJsonResponseConverterService.relativeDistributionJsonResponse(relativeDistribution,
                                                                                               numberOfDices,
@@ -91,6 +101,11 @@ public class DiceRollController {
             @RequestParam(name = NUMBER_OF_DICES_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_DICES) @Min(1) Integer numberOfDices,
             @RequestParam(name = NUMBER_OF_SIDES_QUERY_KEY, defaultValue = DEFAULT_NUMBER_OF_SIDES) @Min(4) Integer numberOfSides
     ) {
+        LOG.info("Request to endpoint /post/add-dice-rolls with numberOfRolls: {}, numberOfDices: {}, numberOfSides: {}",
+                 numberOfRolls,
+                 numberOfDices,
+                 numberOfSides);
+
         DiceRollsSimulationResultsDTO diceRollsSimulationResultsDTO = rollSimulatorService.simulate(numberOfRolls,
                 numberOfDices,
                 numberOfSides);
