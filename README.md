@@ -73,3 +73,7 @@ Curl request examples for each endpoint:
     ```bash
        curl -s -X GET 'http://localhost:8080/get/relative-distribution?number_of_dices=10&number_of_sides=6' 
     ```
+
+## Other useful
+
+1. To access H2 database console please go under http://localhost:8080/h2-console in a web browser
