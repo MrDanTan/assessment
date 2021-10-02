@@ -3,9 +3,13 @@ package com.recruitment.avalog.service;
 
 import com.recruitment.avalog.dto.DiceRollsSimulationResultsDTO;
 import com.recruitment.avalog.dto.SingeRollSimulationResultDTO;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -14,7 +18,10 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Map;
 
+@RunWith(DataProviderRunner.class)
 public class DiceRollSimulatorServiceTest {
+
+    private static final int SIZE_EMPTY = 0;
 
     @InjectMocks
     private RollSimulatorService sut;
@@ -57,4 +64,37 @@ public class DiceRollSimulatorServiceTest {
         Assert.assertNotNull(numberOfSumOccurrences.get(expectedSum));
         Assert.assertEquals(expectedSumOccurrences, numberOfSumOccurrences.get(expectedSum).intValue());
     }
+
+    @Test
+    @UseDataProvider("argumentsForEmptyResults")
+    public void expectEmptyResults(int numberOfRolls, int numberOfDices, int numberOfSides) {
+
+        // when
+        DiceRollsSimulationResultsDTO result = sut.simulate(numberOfRolls, numberOfDices, numberOfSides);
+
+        // then
+        Assert.assertNotNull(result);
+        Assert.assertNotNull(result.getSimulationResults());
+        Assert.assertNotNull(result.getNumberOfSumOccurrences());
+        Assert.assertEquals(SIZE_EMPTY, result.getSimulationResults().size());
+        Assert.assertEquals(SIZE_EMPTY, result.getNumberOfSumOccurrences().keySet().size());
+    }
+
+    @DataProvider
+    public static Object[][] argumentsForEmptyResults() {
+        return new Object[][] {
+                {0 , 1 , 1},
+                {1, 0, 1},
+                {1, 1, 0},
+                {1 , 0 , 0},
+                {0 , 1 , 0},
+                {0 , 0 , 1},
+                {0 , 0 , 0},
+                {-1 , 0 , 0},
+                {0 , -1 , 0},
+                {0 , 0 , -1}
+        };
+    }
+
+
 }

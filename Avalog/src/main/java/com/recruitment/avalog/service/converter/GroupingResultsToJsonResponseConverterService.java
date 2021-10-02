@@ -28,6 +28,10 @@ public class GroupingResultsToJsonResponseConverterService {
 
     public String groupedDataForDiceNumberAndDiceSidesCombinationJsonResponse(List<SimulationThrowsGroupsDTO> simulationThrowsGroupsList) {
         JSONObject jsonFormatResults = new JSONObject();
+        if (simulationThrowsGroupsList == null || simulationThrowsGroupsList.isEmpty()) {
+            jsonFormatResults.put(GROUPS_KEY, new JSONObject[]{});
+            return jsonFormatResults.toString();
+        }
 
         for(SimulationThrowsGroupsDTO singleSimulationGroup: simulationThrowsGroupsList) {
             JSONObject simulationGroup = new JSONObject();
@@ -40,12 +44,21 @@ public class GroupingResultsToJsonResponseConverterService {
         return jsonFormatResults.toString();
     }
 
-    public String relativeDistributionJsonResponse( RelativeDistributionDTO relativeDistribution,
+    public String relativeDistributionJsonResponse(RelativeDistributionDTO relativeDistribution,
                                                    Integer numberOfDice,
                                                    Integer numberOfSides) {
         JSONObject jsonFormatResults = new JSONObject();
         jsonFormatResults.put(NUMBER_OF_DICE_KEY, numberOfDice);
         jsonFormatResults.put(NUMBER_OF_SIDES_IN_DICE_KEY, numberOfSides);
+
+        if (relativeDistribution == null) {
+            return appendResultForNullResult(jsonFormatResults);
+        }
+
+        if (relativeDistribution.getRelativeDistributionSingelGroupList().isEmpty()) {
+            return appendResultForEmptyResult(jsonFormatResults, relativeDistribution);
+        }
+
         jsonFormatResults.put(NUMBER_OF_ALL_SIMULATIONS_KEY, relativeDistribution.getNumberOfAllSimulations());
 
         for(RelativeDistributionSingelGroupDTO singleGroup: relativeDistribution.getRelativeDistributionSingelGroupList()) {
@@ -58,4 +71,15 @@ public class GroupingResultsToJsonResponseConverterService {
         return jsonFormatResults.toString();
     }
 
+    private String appendResultForNullResult(JSONObject jsonFormatResults) {
+        jsonFormatResults.put(GROUPS_KEY, new JSONObject[]{});
+        jsonFormatResults.put(NUMBER_OF_ALL_SIMULATIONS_KEY, 0);
+        return jsonFormatResults.toString();
+    }
+
+    private String appendResultForEmptyResult(JSONObject jsonFormatResults, RelativeDistributionDTO relativeDistribution) {
+        jsonFormatResults.put(GROUPS_KEY, new JSONObject[]{});
+        jsonFormatResults.put(NUMBER_OF_ALL_SIMULATIONS_KEY, relativeDistribution.getNumberOfAllSimulations());
+        return jsonFormatResults.toString();
+    }
 }

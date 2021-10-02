@@ -30,6 +30,11 @@ public class SimulationResultsToJsonResponseConverterService {
 
     private void appendDiceRollsSimulationResult(List<SingeRollSimulationResultDTO> diceRollsSimulationResults,
                                                  JSONObject jsonFormatResults) {
+        if (diceRollsSimulationResults == null || diceRollsSimulationResults.isEmpty()) {
+            jsonFormatResults.put(LIST_OF_ROLLS_KEY, new JSONObject[]{});
+            return;
+        }
+
         for (SingeRollSimulationResultDTO singeRollSimulationResult : diceRollsSimulationResults) {
             JSONObject singleSumOccurrence = new JSONObject();
             singleSumOccurrence.put(SINGLE_THROW_VALUES_KEY, singeRollSimulationResult.getDiceResults());
@@ -40,6 +45,11 @@ public class SimulationResultsToJsonResponseConverterService {
 
     private void appendListOfSumOccurrences(Map<Long, Integer> numberOfSumOccurrences,
                                             JSONObject jsonFormatResults) {
+        if (numberOfSumOccurrences == null || numberOfSumOccurrences.isEmpty()) {
+            jsonFormatResults.put(LIST_OF_SUM_OCCURRENCES_KEY, new JSONObject[]{});
+            return;
+        }
+
         for (Long singleSumValue :  numberOfSumOccurrences.keySet()) {
             JSONObject singleSumOccurrence = new JSONObject();
             singleSumOccurrence.put(SUM_OCCURRENCES_VALUE_KEY, singleSumValue);

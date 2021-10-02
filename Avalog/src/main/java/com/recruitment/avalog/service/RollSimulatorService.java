@@ -23,6 +23,10 @@ public class RollSimulatorService {
     }
 
     public DiceRollsSimulationResultsDTO simulate(int numberOfRolls, int numberOfDices, int numberOfSides) {
+        if (!argumentsPositive(numberOfRolls, numberOfDices, numberOfSides)) {
+            return prepareEmptyResults();
+        }
+
         Map<Long, Integer> numberOfSumOccurrences = new TreeMap<>();
         List<SingeRollSimulationResultDTO> simulationResults = new LinkedList<SingeRollSimulationResultDTO>();
 
@@ -41,6 +45,18 @@ public class RollSimulatorService {
                                                                         .numberOfSumOccurrences(numberOfSumOccurrences)
                                                                         .build();
         return diceRollsSimulationResults;
+    }
+
+    private boolean argumentsPositive(int numberOfRolls, int numberOfDices, int numberOfSides) {
+        return numberOfRolls > 0 && numberOfDices > 0 && numberOfSides > 0;
+    }
+
+    private DiceRollsSimulationResultsDTO prepareEmptyResults() {
+        return DiceRollsSimulationResultsDTO
+                .builder()
+                .numberOfSumOccurrences(new TreeMap<Long, Integer>())
+                .simulationResults(new LinkedList<SingeRollSimulationResultDTO>())
+                .build();
     }
 
     private long sumValueForSingleThrow(int[] resultsForSingleThrow) {

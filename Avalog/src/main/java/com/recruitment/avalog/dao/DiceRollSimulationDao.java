@@ -5,7 +5,6 @@ import com.recruitment.avalog.dto.RelativeDistributionSingelGroupDTO;
 import com.recruitment.avalog.dto.SimulationThrowsGroupsDTO;
 import com.recruitment.avalog.dto.SingeRollSimulationResultDTO;
 import com.recruitment.avalog.entity.DiceRollSimulationEntity;
-import com.recruitment.avalog.repository.DiceRollSimulationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -29,6 +28,9 @@ public class DiceRollSimulationDao {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void save(List<SingeRollSimulationResultDTO> simulationResults, Integer numberOfDice, Integer numberOfSides) {
+        if (simulationResults == null || simulationResults.isEmpty()) {
+            return;
+        }
 
         long currentNumberOfSimulation = diceRollSimulationRepository.getMaxSimulationId() + 1;
 
@@ -49,6 +51,7 @@ public class DiceRollSimulationDao {
 
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public List<SimulationThrowsGroupsDTO> getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination() {
         List<Object[]> results = diceRollSimulationRepository.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
         return results.stream()
@@ -61,6 +64,7 @@ public class DiceRollSimulationDao {
                       ).collect(Collectors.toList());
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public RelativeDistributionDTO getRelativeDistribution(int numberOfDices, int numberOfSides) {
         long allSiumulationCount = diceRollSimulationRepository.count();
         List<Object[]> results = diceRollSimulationRepository.getRelativeDistribution(numberOfDices, numberOfSides);
