@@ -77,7 +77,7 @@ public class DiceRollController {
     public String getGroupedDataForDiceNumberAndDiceSidesCombination() {
         LOG.info("Request to endpoint /get/simulation-and-rolls");
 
-        List<SimulationThrowsGroupsDTO> simulationThrowsGroupsList = diceRollSimulationDao.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
+        List<SimulationThrowsGroupsDTO> simulationThrowsGroupsList = diceRollSimulationDao.getGroupsForDiceNumberDiceSideNumberCombination();
         return groupingResultsToJsonResponseConverterService.groupedDataForDiceNumberAndDiceSidesCombinationJsonResponse(simulationThrowsGroupsList);
     }
 

@@ -52,7 +52,7 @@ public class DiceRollSimulationDao {
     }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public List<SimulationThrowsGroupsDTO> getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination() {
+    public List<SimulationThrowsGroupsDTO> getGroupsForDiceNumberDiceSideNumberCombination() {
         List<Object[]> results = diceRollSimulationRepository.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
         return results.stream()
                       .map(objectArray -> SimulationThrowsGroupsDTO.builder()

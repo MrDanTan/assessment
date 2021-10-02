@@ -119,7 +119,7 @@ public class DiceRollSimulationDaoTest {
                 .thenReturn(expectedResults);
 
         // when
-        List<SimulationThrowsGroupsDTO> results = sut.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
+        List<SimulationThrowsGroupsDTO> results = sut.getGroupsForDiceNumberDiceSideNumberCombination();
 
         // then
         Assert.assertNotNull(results);
@@ -144,7 +144,7 @@ public class DiceRollSimulationDaoTest {
                 .thenReturn(expectedResults);
 
         // when
-        List<SimulationThrowsGroupsDTO> results = sut.getSimulationsAndThrowsForDiceNumberDiceSideNumberCombination();
+        List<SimulationThrowsGroupsDTO> results = sut.getGroupsForDiceNumberDiceSideNumberCombination();
 
         // then
         Assert.assertNotNull(results);
