@@ -5,8 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan("com.recruitment.avalog.controller")
+@ComponentScan({"com.recruitment.avalog.controller", "com.recruitment.avalog.service"})
 public class EntryPoint {
+
+
     public static void main( String[] args ) {
         SpringApplication.run(EntryPoint.class);
     }
